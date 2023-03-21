@@ -40,9 +40,10 @@ def generate_image(clip_vector, scale=1.0, steps=30):
                                          shape=shape,
                                          verbose=False,
                                          unconditional_guidance_scale=scale,
-                                         x_T=start_code)
+                                         x_T=start_code
+                                         context=clip_vector.unsqueeze(0))
         generated_image = ddim_sampler.decode_first_stage(samples)[0]
     return generated_image
-print(generate_image(get_clip_vector("C:\\Users\\AkramZine\\Downloads\\16293810719734.jpg"),scale=1.0, steps=30))
+print(generate_image(get_clip_vector("/home/ubuntu/images/oussamaammar/00001.jpg"),scale=1.0, steps=30))
 
 
