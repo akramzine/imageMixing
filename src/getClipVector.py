@@ -56,7 +56,7 @@ image_pil.save("generated_image.jpg")
 with open("generated_image.jpg", "rb") as file:
     url = "https://api.imgbb.com/1/upload"
     payload = {
-        "key": "your_api_key",
+        "key": "a06c97753bd86796d1159e4ca7f1efc2",
         "image": base64.b64encode(file.read()),
     }
     res = requests.post(url, payload)
