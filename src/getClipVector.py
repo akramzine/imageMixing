@@ -47,7 +47,7 @@ def generate_image(clip_vector, scale=1.0, steps=30):
 clip_vector=get_clip_vector("/home/ubuntu/images/oussamaammar/00001.jpg")
 generated_image=generate_image(clip_vector, scale=1.0, steps=30)
 generated_image = generated_image.to('cpu').numpy()
-generated_image = generated_image.transpose((1, 2, 0)) * 255.0
+#generated_image = generated_image.transpose((1, 2, 0)) * 255.0
 generated_image = generated_image.astype('uint8')
 image_pil = Image.fromarray(generated_image)
 image_pil.save("generated_image.jpg")
