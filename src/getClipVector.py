@@ -11,7 +11,7 @@ from PIL import Image
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # Load the CLIP clip_model
-clip_model, preprocess = clip.load("ViT-B/32x768", device=device)
+clip_model, preprocess = clip.load("ViT-L/14", device=device)
 clip_model.eval()
 ckpt="v1-5-pruned-emaonly.ckpt"
 config="v1-inference.yaml"
