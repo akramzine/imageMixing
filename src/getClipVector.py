@@ -22,9 +22,9 @@ ddim_sampler = DDIMSampler(model)
 def get_clip_vector(image_path):
     image = Image.open(image_path).convert("RGB")
     # resize image
+    image = image.resize((64, 64), resample=Image.LANCZOS)  # resize to 64x64
     tensor = preprocess(image).to(device)
     tensor = torch.unsqueeze(tensor, 0)
-
     print(tensor.shape)
     with torch.no_grad():
         clip_vector = clip_model.encode_image(tensor).float()
@@ -40,7 +40,7 @@ def generate_image(clip_vector, scale=1.0, steps=30):
                                          shape=shape,
                                          verbose=False,
                                          unconditional_guidance_scale=scale,
-                                         x_T=start_code
+                                         x_T=start_code,
                                          context=clip_vector.unsqueeze(0))
         generated_image = ddim_sampler.decode_first_stage(samples)[0]
     return generated_image
