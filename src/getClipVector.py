@@ -22,6 +22,7 @@ ddim_sampler = DDIMSampler(model)
 def get_clip_vector(image_path):
     image = Image.open(image_path).convert("RGB")
     # resize image
+    image = image.resize((768, 320), resample=Image.LANCZOS)
     tensor = preprocess(image).to(device)
     tensor = torch.unsqueeze(tensor, 0)
 
