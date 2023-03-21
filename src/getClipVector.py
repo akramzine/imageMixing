@@ -26,14 +26,13 @@ def get_clip_vector(image_path):
     tensor = preprocess(image).to(device)
     tensor = torch.unsqueeze(tensor, 0)
 
-    print(tensor.shape)
     with torch.no_grad():
         clip_vector = clip_model.encode_image(tensor).float()
     return clip_vector
 
 def generate_image(clip_vector, scale=1.0, steps=30):
     with torch.no_grad():
-        shape = [4, 512 // 8, 512 // 8]
+        shape = [4, 768 // 8, 320 // 8]
         print(clip_vector.shape)
         start_code = torch.randn(1, *shape, device=device)
         samples, _ = ddim_sampler.sample(S=steps,
