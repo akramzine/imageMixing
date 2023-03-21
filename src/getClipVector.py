@@ -32,7 +32,7 @@ def get_clip_vector(image_path):
 
 def generate_image(clip_vector, scale=1.0, steps=30):
     with torch.no_grad():
-        shape = [4, 512 // 8, 512 // 8]
+        shape = [4, 768 // 8, 320 // 8]
         start_code = torch.randn(1, *shape, device=device)
         samples, _ = ddim_sampler.sample(S=steps,
                                          conditioning=clip_vector.unsqueeze(0),
