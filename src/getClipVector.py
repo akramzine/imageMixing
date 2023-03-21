@@ -11,7 +11,7 @@ from PIL import Image
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 # Load the CLIP clip_model
-clip_model, preprocess = clip.load('ViT-B/32', device=device)
+clip_model, preprocess = clip.load("ViT-B/32x768", device=device)
 clip_model.eval()
 ckpt="v1-5-pruned-emaonly.ckpt"
 config="v1-inference.yaml"
@@ -22,10 +22,10 @@ ddim_sampler = DDIMSampler(model)
 def get_clip_vector(image_path):
     image = Image.open(image_path).convert("RGB")
     # resize image
-    image = image.resize((512, 512), resample=Image.LANCZOS) 
     tensor = preprocess(image).to(device)
     tensor = torch.unsqueeze(tensor, 0)
 
+    print(tensor.shape)
     with torch.no_grad():
         clip_vector = clip_model.encode_image(tensor).float()
     return clip_vector
