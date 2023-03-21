@@ -26,6 +26,7 @@ def get_clip_vector(image_path):
     return clip_vector
 
 def generate_image(clip_vector, scale=1.0, steps=50):  # Increased steps to 50
+    ddim_eta=0.0
     with torch.no_grad():
         shape = [4, 512 // 8, 512 // 8]
         start_code = torch.randn(1, *shape, device=device)
@@ -35,6 +36,7 @@ def generate_image(clip_vector, scale=1.0, steps=50):  # Increased steps to 50
                                          shape=shape,
                                          verbose=False,
                                          unconditional_guidance_scale=scale,
+                                         eta=ddim_eta,
                                          x_T=start_code)
         generated_image = model.decode_first_stage(samples)[0]
         print(generated_image)
