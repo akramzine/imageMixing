@@ -37,6 +37,7 @@ def generate_image(clip_vector, scale=1.0, steps=50):  # Increased steps to 50
                                          unconditional_guidance_scale=scale,
                                          x_T=start_code)
         generated_image = model.decode_first_stage(samples)[0]
+        print(generated_image)
     return generated_image
 
 clip_vector = get_clip_vector("/home/ubuntu/images/oussamaammar/00001.jpg")
