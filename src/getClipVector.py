@@ -1,5 +1,4 @@
 
-import math
 from latentdiffusion.ldm.models.diffusion.ddim import DDIMSampler
 from latentdiffusion.ldm.extras import load_model_from_config, load_training_dir
 
@@ -40,9 +39,6 @@ def generate_image(clip_vector, scale=1.0, steps=30):
                                          verbose=False,
                                          unconditional_guidance_scale=scale,
                                          x_T=start_code)
-        # Scale latents
-        scale_factor = math.sqrt(1 - (steps - 1) / steps)
-        samples = samples * scale_factor
         generated_image = model.decode_first_stage(samples)[0]
     return generated_image
 
