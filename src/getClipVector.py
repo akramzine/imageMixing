@@ -25,19 +25,21 @@ def get_clip_vector(image_path):
         clip_vector = clip_model.encode_image(tensor).float()
     return clip_vector
 
-def generate_image(clip_vector, scale=1.0, steps=50):  # Increased steps to 50
+def generate_image(clip_vector, scale=1.0, precision="autocast", steps=50):  # Increased steps to 50
     ddim_eta=0.0
-    with torch.no_grad():
-        shape = [4, 512 // 8, 512 // 8]
-        start_code = torch.randn(1, *shape, device=device)
-        samples, _ = ddim_sampler.sample(S=steps,
-                                         conditioning=clip_vector.unsqueeze(0),
-                                         batch_size=1,
-                                         shape=shape,
-                                         verbose=False,
-                                         unconditional_guidance_scale=scale,
-                                         eta=ddim_eta,
-                                         x_T=start_code)
+    precision_scope = autocast if precision=="autocast" else nullcontext
+    with precision_scope("cuda"):
+        with torch.no_grad():
+            shape = [4, 512 // 8, 512 // 8]
+            start_code = torch.randn(1, *shape, device=device)
+            samples, _ = ddim_sampler.sample(S=steps,
+                                             conditioning=clip_vector.unsqueeze(0),
+                                             batch_size=1,
+                                             shape=shape,
+                                             verbose=False,
+                                             unconditional_guidance_scale=scale,
+                                             eta=ddim_eta,
+                                             x_T=start_code)
         generated_image = model.decode_first_stage(samples)[0]
         print(generated_image)
     return generated_image
