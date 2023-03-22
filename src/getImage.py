@@ -300,7 +300,7 @@ def main():
                             prompts = list(prompts)
                         c=c.repeat(1, uc.shape[1], 1)
                         c = c.repeat(1, 1, 3)
-                        norm=torch.norm(c, dim=-1)
+                        norm=torch.norm(c, dim=1)
                         c = c / norm[:, None]
                         c = c / norm.unsqueeze(1)
 
