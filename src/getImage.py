@@ -295,7 +295,7 @@ def main():
                             uc = model.get_learned_conditioning(batch_size * [""])
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
-                        c = clip_vector.unsqueeze(0).repeat(batch_size, 1, 1, 1)  # Repeat the clip vector for the batch size and add a batch dimension
+                        c = clip_vector.unsqueeze(1).repeat(1, batch_size, 1)  # Repeat the clip vector for the batch size and add a batch dimension
                         shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
                         samples_ddim, _ = sampler.sample(S=opt.ddim_steps,
                                                          conditioning=c,
