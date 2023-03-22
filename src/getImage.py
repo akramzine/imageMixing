@@ -296,6 +296,8 @@ def main():
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
                         c = clip_vector.unsqueeze(1).repeat(1, batch_size, 1)  # Repeat the clip vector for the batch size and add a batch dimension
+                        print(uc.size())
+                        print(c.size())
                         shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
                         samples_ddim, _ = sampler.sample(S=opt.ddim_steps,
                                                          conditioning=c,
