@@ -289,6 +289,7 @@ def main():
                 tic = time.time()
                 all_samples = list()
                 c = clip_vector.unsqueeze(1).repeat(1, batch_size, 1)
+                c = c.expand(-1, 77, -1)  # expand the tensor to match the size of uc in the second dimension
                 for n in trange(opt.n_iter, desc="Sampling"):
                     for prompts in tqdm(data, desc="data"):
                         uc = None
