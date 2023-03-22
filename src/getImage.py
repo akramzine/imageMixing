@@ -288,7 +288,7 @@ def main():
             with model.ema_scope():
                 tic = time.time()
                 all_samples = list()
-                c = clip_vector.unsqueeze(1).reshape(batch_size, 1, -1).repeat(1, uc.shape[1], 1)
+                c = clip_vector.unsqueeze(1).reshape(batch_size, 1, -1)
 
                 for n in trange(opt.n_iter, desc="Sampling"):
                     for prompts in tqdm(data, desc="data"):
@@ -298,6 +298,7 @@ def main():
                             uc = uc.repeat(c.size(0), 1, 1) # repeat uc along batch dimension
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
+                        c=c.repeat(1, uc.shape[1], 1)
                         print(uc.size())
                         print(c.size())
                         shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
