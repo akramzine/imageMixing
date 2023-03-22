@@ -298,11 +298,10 @@ def main():
                             uc = uc.repeat(c.size(0), 1, 1) # repeat uc along batch dimension
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
-                        c = torch.broadcast_to(c, [batch_size, 1, 1, 768]) # broadcast c to [batch_size, 1, 1, 768]
-
-                        norm=torch.norm(c, dim=1)
-                        c = c / norm[:, None]
-                        c = c / norm.unsqueeze(1)
+                        c = c / c.norm(dim=-1, keepdim=True)
+                        c = c.reshape(batch_size, -1)  # reshape to [batch_size, 256]
+                        c = c.unsqueeze(1).unsqueeze(2)  # unsqueeze to [batch_size, 1, 1, 256]
+                        c = torch.broadcast_to(c, [batch_size, 1, 1, 768]) 
 
                         print(uc.size())
                         print(c.size())
