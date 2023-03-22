@@ -300,6 +300,10 @@ def main():
                             prompts = list(prompts)
                         c=c.repeat(1, uc.shape[1], 1)
                         c = c.repeat(1, 1, 3)
+                        c = torch.einsum('ik,jk->ij', clip_vector, token_embeddings)
+                        c = c / torch.norm(clip_vector, dim=-1)[:, None]
+                        c = c / torch.norm(token_embeddings, dim=-1).unsqueeze(1)
+
                         print(uc.size())
                         print(c.size())
                         shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
