@@ -299,6 +299,7 @@ def main():
                         if isinstance(prompts, tuple):
                             prompts = list(prompts)
                         c=c.repeat(1, uc.shape[1], 1)
+                        c = c.repeat(1, 1, 3)
                         print(uc.size())
                         print(c.size())
                         shape = [opt.C, opt.H // opt.f, opt.W // opt.f]
