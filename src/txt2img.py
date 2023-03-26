@@ -7,7 +7,7 @@ pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float
 pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
 pipe = pipe.to("cuda")
 
-prompt = "a photo of an astronaut riding a horse on mars"
+prompt = "a close up of a woman's face with stars in the background, by Yoshio Markino, tumblr, the little mermaid, kiss, animated movie still, sleeping beauty AND a woman standing in the water holding a stick, a photo, by Doug Wildey, flickr, magic realism, tuesday weld in a pink bikini, film still dnd movie, on an island, motu"
 image = pipe(prompt).images[0]
     
-image.save("astronaut_rides_horse.png")
+image.save("a close up of a woman's face with stars in the background, by Yoshio Markino, tumblr, the little mermaid, kiss, animated movie still, sleeping beauty AND a woman standing in the water holding a stick, a photo, by Doug Wildey, flickr, magic realism, tuesday weld in a pink bikini, film still dnd movie, on an island, motu.png")
