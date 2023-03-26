@@ -17,7 +17,7 @@ image = pipe(prompt).images[0]
 image_data = base64.b64encode(image.tobytes()).decode("utf-8")
 
 # Upload the image to imgbb
-api_key = "a06c97753bd86796d1159e4ca7f1efc2"
+api_key = "your_api_key"
 response = requests.post("https://api.imgbb.com/1/upload", 
                          data={"key": api_key, "image": image_data})
 
