@@ -5,18 +5,17 @@ from io import BytesIO
 
 from diffusers import StableUnCLIPImg2ImgPipeline
 
+#Start the StableUnCLIP Image variations pipeline
 pipe = StableUnCLIPImg2ImgPipeline.from_pretrained(
-    "fusing/stable-unclip-2-1-l-img2img", torch_dtype=torch.float16
-)  # TODO update model path
+    "stabilityai/stable-diffusion-2-1-unclip", torch_dtype=torch.float16, variation="fp16"
+)
 pipe = pipe.to("cuda")
 
-url = "https://raw.githubusercontent.com/CompVis/stable-diffusion/main/assets/stable-samples/img2img/sketch-mountains-input.jpg"
-
+#Get image from URL
+url = "https://huggingface.co/datasets/hf-internal-testing/diffusers-images/resolve/main/stable_unclip/tarsila_do_amaral.png"
 response = requests.get(url)
 init_image = Image.open(BytesIO(response.content)).convert("RGB")
-init_image = init_image.resize((768, 512))
 
-prompt = "A fantasy landscape, trending on artstation"
-
-images = pipe(prompt, init_image).images
-images[0].save("fantasy_landscape.png")
+#Pipe to make the variation
+images = pipe(init_image).images
+images[0].save("tarsila_variation.png")
