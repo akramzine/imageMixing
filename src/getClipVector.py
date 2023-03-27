@@ -12,8 +12,8 @@ import base64
 device = "cuda" if torch.cuda.is_available() else "cpu"
 clip_model, preprocess = clip.load("ViT-L/14", device=device)
 clip_model.eval()
-ckpt="v1-5-pruned-emaonly.ckpt"
-config="v1-inference.yaml"
+ckpt="sd21-unclip-l.ckpt"
+config="v2-inference-v.yaml"
 model = load_model_from_config(config, ckpt, device=device, verbose=False)
 
 ddim_sampler = DDIMSampler(model) 
