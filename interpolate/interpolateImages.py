@@ -351,7 +351,7 @@ class UnCLIPImageInterpolationPipeline(DiffusionPipeline):
         do_classifier_free_guidance = decoder_guidance_scale > 1.0
 
         prompt_embeds, text_encoder_hidden_states, text_mask = self._encode_prompt(
-            prompt=[""],
+            prompt=["" for i in range(steps)],
             device=device,
             num_images_per_prompt=1,
             do_classifier_free_guidance=do_classifier_free_guidance,
@@ -475,9 +475,10 @@ class UnCLIPImageInterpolationPipeline(DiffusionPipeline):
                 prev_timestep = super_res_timesteps_tensor[i + 1]
 
             # compute the previous noisy sample x_t -> x_t-1
-            super_res_latents = self.super_res_scheduler.step(
-                noise_pred, t, super_res_latents, prev_timestep=prev_timestep, generator=generator
-            ).prev_sample
+            if i == len(self.progress_bar(super_res_timesteps_tensor)) // 2:
+                super_res_latents = self.super_res_scheduler.step(
+                    noise_pred, t, super_res_latents, prev_timestep=prev_timestep, generator=generator
+                ).prev_sample
 
         image = super_res_latents
         # done super res
