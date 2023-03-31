@@ -1,5 +1,6 @@
 import inspect
 from typing import List, Optional, Union
+from PIL import Image
 
 import PIL
 import torch
@@ -491,3 +492,18 @@ class UnCLIPImageInterpolationPipeline(DiffusionPipeline):
             return (image,)
 
         return ImagePipelineOutput(images=image)
+    
+
+# Load two images as PIL images
+image1 = Image.open("image1.jpeg")
+image2 = Image.open("image2.jpeg")
+
+# Resize the images to the required size
+image1 = image1.resize((224, 224))
+image2 = image2.resize((224, 224))
+
+# Create a list of the two images
+image_list = [image1, image2]
+object = UnCLIPImageInterpolationPipeline(DiffusionPipeline)
+result = object(image=image_list, steps=5)
+print(result)
