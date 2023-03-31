@@ -335,12 +335,14 @@ class UnCLIPImageInterpolationPipeline(DiffusionPipeline):
         )
 
         image_embeddings = []
-
+        i=0
         for interp_step in torch.linspace(0, 1, steps):
-            temp_image_embeddings = slerp(
-                interp_step, original_image_embeddings[0], original_image_embeddings[1]
-            ).unsqueeze(0)
-            image_embeddings.append(temp_image_embeddings)
+            i=i+1
+            if i==steps//2:
+                temp_image_embeddings = slerp(
+                    interp_step, original_image_embeddings[0], original_image_embeddings[1]
+                ).unsqueeze(0)
+                image_embeddings.append(temp_image_embeddings)
 
         image_embeddings = torch.cat(image_embeddings).to(device)
 
