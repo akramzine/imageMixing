@@ -504,6 +504,28 @@ image2 = image2.resize((224, 224))
 
 # Create a list of the two images
 image_list = [image1, image2]
-object = UnCLIPImageInterpolationPipeline(DiffusionPipeline)
+# Instantiate the required objects
+decoder = UNet2DConditionModel(...)
+text_encoder = CLIPTextModelWithProjection(...)
+tokenizer = CLIPTokenizer(...)
+text_proj = UnCLIPTextProjModel(...)
+feature_extractor = CLIPImageProcessor(...)
+image_encoder = CLIPVisionModelWithProjection(...)
+super_res_first = UNet2DModel(...)
+super_res_last = UNet2DModel(...)
+decoder_scheduler = UnCLIPScheduler(...)
+super_res_scheduler = UnCLIPScheduler(...)
+object = UnCLIPImageInterpolationPipeline(
+    decoder,
+    text_encoder,
+    tokenizer,
+    text_proj,
+    feature_extractor,
+    image_encoder,
+    super_res_first,
+    super_res_last,
+    decoder_scheduler,
+    super_res_scheduler,
+)
 result = object(image=image_list, steps=5)
 print(result)
